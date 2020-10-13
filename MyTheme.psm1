@@ -39,10 +39,15 @@ function Write-Theme {
     # Writes the drive portion
     # $drive = $sl.PromptSymbols.HomeSymbol
     $drive = $sl.PromptSymbols.HomeSymbol + "Home"
-    if ($pwd.Path -ne $HOME) 
+    $root = "$(Split-Path -path $pwd -Qualifier)\"
+    if ($pwd.Path -eq $root)
+    {
+        $drive = "Driver: " + $root.Remove(1)
+    }
+    elseif ($pwd.Path -ne $HOME) 
     {
         $drive = "$(Split-Path -path $(Split-Path -path $pwd -Parent) -Leaf)"
-        if ($drive -ne "$(Split-Path -path $pwd -Qualifier)\")
+        if ($drive -ne $root)
         {
             $drive += "\"
         }
